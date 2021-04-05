@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+
+<body onload="openRole(event);" class="body">
+
+
+    <div class="tab">
+        <button class="tablinks" onclick="openRole(event)">All</button>
+        <button class="tablinks" onclick="openRole(event, 'Top')">Top</button>
+        <button class="tablinks" onclick="openRole(event, 'Jungle')">Jungle</button>
+        <button class="tablinks" onclick="openRole(event, 'Mid')">Mid</button>
+        <button class="tablinks" onclick="openRole(event, 'ADC')">ADC</button>
+        <button class="tablinks" onclick="openRole(event, 'Supp')">Supp</button>
+    </div>
+
+    <table class="table" id="myTable">
+        <tr class="table__header">
+            <th class="table__header" onclick="sortTable(0)">Champions</th>
+            <th class="table__header" onclick="sortTable(1)">HP</th>
+            <th class="table__header" onclick="sortTable(2)">HP+</th>
+            <th class="table__header" onclick="sortTable(3)">MP</th>
+            <th class="table__header" onclick="sortTable(4)">MP+</th>
+            <th class="table__header" onclick="sortTable(5)">AD</th>
+            <th class="table__header" onclick="sortTable(6)">AD+</th>
+            <th class="table__header" onclick="sortTable(7)">AS</th>
+            <th class="table__header" onclick="sortTable(8)">AS+</th>
+            <th class="table__header" onclick="sortTable(9)">AR</th>
+            <th class="table__header" onclick="sortTable(10)">AR+</th>
+            <th class="table__header" onclick="sortTable(11)">MR</th>
+            <th class="table__header" onclick="sortTable(12)">MR+</th>
+            <th class="table__header" onclick="sortTable(13)">MS</th>
+            <th class="table__header" onclick="sortTable(14)">Range</th>
+        </tr>
+    </table>
+        <!--<table class="table" id="myTable">
+        <tr class="table__header">
+            <th class="table__header" onclick="sortTable(0)">Champions</th>
+            <th class="table__header" onclick="sortTable(1)">HP</th>
+            <th class="table__header" onclick="sortTable(2)">HP+</th>
+            <th class="table__header" onclick="sortTable(3)">MP</th>
+            <th class="table__header" onclick="sortTable(4)">MP+</th>
+            <th class="table__header" onclick="sortTable(5)">AD</th>
+            <th class="table__header" onclick="sortTable(6)">AD+</th>
+            <th class="table__header" onclick="sortTable(7)">AS</th>
+            <th class="table__header" onclick="sortTable(8)">AS+</th>
+            <th class="table__header" onclick="sortTable(9)">AR</th>
+            <th class="table__header" onclick="sortTable(10)">AR+</th>
+            <th class="table__header" onclick="sortTable(11)">MR</th>
+            <th class="table__header" onclick="sortTable(12)">MR+</th>
+            <th class="table__header" onclick="sortTable(13)">MS</th>
+            <th class="table__header" onclick="sortTable(14)">Range</th>
+        </tr>
+        {% for row in data %}
+        <tr class="table__row">
+            {% for cell in row %}
+            <th class="table__cell">{{ cell }} </th>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>-->
+        <!--<script>
+        function printHeader() {
+            <tr class="table__header">
+                <th class="table__header" onclick="sortTable(0)">Champions</th>
+                <th class="table__header" onclick="sortTable(1)">HP</th>
+                <th class="table__header" onclick="sortTable(2)">HP+</th>
+                <th class="table__header" onclick="sortTable(3)">MP</th>
+                <th class="table__header" onclick="sortTable(4)">MP+</th>
+                <th class="table__header" onclick="sortTable(5)">AD</th>
+                <th class="table__header" onclick="sortTable(6)">AD+</th>
+                <th class="table__header" onclick="sortTable(7)">AS</th>
+                <th class="table__header" onclick="sortTable(8)">AS+</th>
+                <th class="table__header" onclick="sortTable(9)">AR</th>
+                <th class="table__header" onclick="sortTable(10)">AR+</th>
+                <th class="table__header" onclick="sortTable(11)">MR</th>
+                <th class="table__header" onclick="sortTable(12)">MR+</th>
+                <th class="table__header" onclick="sortTable(13)">MS</th>
+                <th class="table__header" onclick="sortTable(14)">Range</th>
+            </tr>
+        }
+    </script>-->
+
+        <script type="text/javascript">
+            function erase_prev_tr() {
+                var body = document.getElementsByTagName('table')[0];
+                var prev_tr = body.childNodes;
+                while(prev_tr[prev_tr.length-1].nodeName == 'TR'){
+                    prev_tr[prev_tr.length-1].parentNode.removeChild(prev_tr[prev_tr.length-1]);
+                }
+            }
+
+
+            function openRole(evt, role = 'All') {
+                var all_data_1 = {{all_data_1|safe}}
+                var all_data_2 = {{all_data_2|safe}}
+                var all_data_3 = {{all_data_3|safe}}
+                var top_data =      {{ top_data| safe}}
+                var jungle_data =   {{ jungle_data| safe}}
+                var mid_data =      {{ mid_data| safe}}
+                var adc_data =      {{ adc_data| safe}}
+                var supp_data =     {{ supp_data| safe}}
+                switch (role) {
+                    case 'Top':
+                        var body = document.getElementsByTagName('table')[0];
+                        erase_prev_tr();
+                        for (var i = 0; i < top_data.length; i++) {
+                            var tr = document.createElement('tr');
+                            tr.classList.add("table__row");
+                            for (var j = 0; j < top_data[i].length; j++) {
+                                var th = document.createElement('th');
+                                th.classList.add("table__cell");
+                                th.appendChild(document.createTextNode(top_data[i][j]));
+                                tr.appendChild(th);
+                            }
+                            body.appendChild(tr)
+                        }
+                        break;
+                    case 'Jungle':
+                        var body = document.getElementsByTagName('table')[0];
+                        erase_prev_tr();
+                        for (var i = 0; i < jungle_data.length; i++) {
+                            var tr = document.createElement('tr');
+                            tr.classList.add("table__row");
+                            for (var j = 0; j < jungle_data[i].length; j++) {
+                                var th = document.createElement('th');
+                                th.classList.add("table__cell");
+                                th.appendChild(document.createTextNode(jungle_data[i][j]));
+                                tr.appendChild(th);
+                            }
+                            body.appendChild(tr)
+                        }
+                        break;
+                    case 'Mid':
+                        var body = document.getElementsByTagName('table')[0];
+                        erase_prev_tr();
+                        for (var i = 0; i < mid_data.length; i++) {
+                            var tr = document.createElement('tr');
+                            tr.classList.add("table__row");
+                            for (var j = 0; j < mid_data[i].length; j++) {
+                                var th = document.createElement('th');
+                                th.classList.add("table__cell");
+                                th.appendChild(document.createTextNode(mid_data[i][j]));
+                                tr.appendChild(th);
+                            }
+                            body.appendChild(tr)
+                        }
+                        break;
+                    case 'ADC':
+                        var body = document.getElementsByTagName('table')[0];
+                        erase_prev_tr();
+                        for (var i = 0; i < adc_data.length; i++) {
+                            var tr = document.createElement('tr');
+                            tr.classList.add("table__row");
+                            for (var j = 0; j < adc_data[i].length; j++) {
+                                var th = document.createElement('th');
+                                th.classList.add("table__cell");
+                                th.appendChild(document.createTextNode(adc_data[i][j]));
+                                tr.appendChild(th);
+                            }
+                            body.appendChild(tr)
+                        }
+                        break;
+                    case 'Supp':
+                        var body = document.getElementsByTagName('table')[0];
+                        erase_prev_tr();
+                        for (var i = 0; i < supp_data.length; i++) {
+                            var tr = document.createElement('tr');
+                            tr.classList.add("table__row");
+                            for (var j = 0; j < supp_data[i].length; j++) {
+                                var th = document.createElement('th');
+                                th.classList.add("table__cell");
+                                th.appendChild(document.createTextNode(supp_data[i][j]));
+                                tr.appendChild(th);
+                            }
+                            body.appendChild(tr)
+                        }
+                        break;
+                    default:
+                        var all_data_table;
+                        var body = document.getElementsByTagName('table')[0];
+                        erase_prev_tr();
+                        for (var i = 0; i < all_data_1.length; i++) {
+                            var tr = document.createElement('tr');
+                            tr.classList.add("table__row");
+                            for (var j = 0; j < all_data_1[i].length; j++) {
+                                var th = document.createElement('th');
+                                th.classList.add("table__cell");
+                                th.appendChild(document.createTextNode(all_data_1[i][j]));
+                                tr.appendChild(th);
+                            }
+                            body.appendChild(tr)
+                        }
+                        for (var i = 0; i < all_data_2.length; i++) {
+                            var tr = document.createElement('tr');
+                            tr.classList.add("table__row");
+                            for (var j = 0; j < all_data_2[i].length; j++) {
+                                var th = document.createElement('th');
+                                th.classList.add("table__cell");
+                                th.appendChild(document.createTextNode(all_data_2[i][j]));
+                                tr.appendChild(th);
+                            }
+                            body.appendChild(tr)
+                        }
+                        for (var i = 0; i < all_data_3.length; i++) {
+                            var tr = document.createElement('tr');
+                            tr.classList.add("table__row");
+                            for (var j = 0; j < all_data_3[i].length; j++) {
+                                var th = document.createElement('th');
+                                th.classList.add("table__cell");
+                                th.appendChild(document.createTextNode(all_data_3[i][j]));
+                                tr.appendChild(th);
+                            }
+                            body.appendChild(tr)
+                        }
+                        
+                        break;
+                };
+            }
+        </script>
+        
+        <script>
+        /* function tableCreate() {
+                    var body = document.getElementsByTagName('body')[0];
+                    var tbl = document.createElement('table');
+                    tbl.style.width = '100%';
+                    tbl.setAttribute('border', '1');
+                    var tbdy = document.createElement('tbody');
+                    var tr = document.createElement('tr');
+                    for (var i = 0; i < 3; i++) {
+    
+                        if (i == 0){
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('Champions'));
+                            th.onclick = sortTable(0);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('HP'));
+                            th.onclick=sortTable(1);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('HP+'));
+                            th.onclick=sortTable(2);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('MP'));
+                            th.onclick=sortTable(3);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('MP+'));
+                            th.onclick=sortTable(4);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('AD'));
+                            th.onclick=sortTable(5);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('AD+'));
+                            th.onclick=sortTable(6);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('AS'));
+                            th.onclick=sortTable(7);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('AS+'));
+                            th.onclick=sortTable(8);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('AR'));
+                            th.onclick=sortTable(9);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('AR+'));
+                            th.onclick=sortTable(10);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('MR'));
+                            th.onclick=sortTable(11);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('MR+'));
+                            th.onclick=sortTable(12);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('MS'));
+                            th.onclick=sortTable(13);
+                            tr.appendChild(th);
+                            var th = document.createElement('th');
+                            th.appendChild(document.createTextNode('Range'));
+                            th.onclick=sortTable(14);
+                            tr.appendChild(th);
+                        }
+                        tbdy.appendChild(tr);
+                    }
+                    tbl.appendChild(tbdy);
+                    body.appendChild(tbl)
+            }*/
+
+            function sortTable(n) {
+                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                table = document.getElementById("myTable");
+                switching = true;
+                //Set the sorting direction to ascending:
+                dir = "asc";
+                /*Make a loop that will continue until
+                no switching has been done:*/
+                while (switching) {
+                    //start by saying: no switching is done:
+                    switching = false;
+                    rows = table.rows;
+                    /*Loop through all table rows (except the
+                    first, which contains table headers):*/
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        //start by saying there should be no switching:
+                        shouldSwitch = false;
+                        /*Get the two elements you want to compare,
+                        one from current row and one from the next:*/
+                        x = rows[i].children[n];
+                        //x = rows[i].getElementsByTagName("TD")[n];
+                        //y = rows[i + 1].getElementsByTagName("TD")[n];
+                        y = rows[i + 1].children[n];
+                        /*check if the two rows should switch place,
+                        based on the direction, asc or desc:*/
+                        if (dir == "asc") {
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                //if so, mark as a switch and break the loop:
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                //if so, mark as a switch and break the loop:
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        /*If a switch has been marked, make the switch
+                        and mark that a switch has been done:*/
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        //Each time a switch is done, increase this count by 1:
+                        switchcount++;
+                    } else {
+                        /*If no switching has been done AND the direction is "asc",
+                        set the direction to "desc" and run the while loop again.*/
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+        </script>
+        
+</body>
+
+</html>
